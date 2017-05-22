@@ -68,15 +68,18 @@ public class RetailManagerController {
     public ResponseEntity<List> getShopList(
             @RequestParam("Lng") double lng, @RequestParam("Lat") double lat) {
         List shopLst = new ArrayList();
-        for (Map.Entry<Stringist> shopMap : RetailStore.datamap
+        for (Map.Entry<String,List> shopMap : RetailStore.datamap
                 .entrySet()) {
 
-            for (ShopBean shopBean : shopMap.getValue()) {
-                if (lng == shopBean.getShopLongitude()
-                        && lat == shopBean.getShopLatitude()) {
-                    shopLst.add(shopBean);
-                }
+            for (Object shopBean : shopMap.getValue()) {
+                if (shopBean instanceof ShopBean) {
+                    ShopBean sb = (ShopBean)shopBean;
+                    if (lng == sb.getShopLongitude()
+                            && lat == sb.getShopLatitude()) {
+                        shopLst.add(shopBean);
+                    }
 
+                }
             }
 
         }
